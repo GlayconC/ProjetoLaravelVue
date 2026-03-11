@@ -1,0 +1,8 @@
+POST /api/register — cadastrar usuário
+POST /api/login — login
+POST /api/logout — logout
+POST /api/pessoas — criar pessoa
+GET /api/pessoas — listar pessoas
+GET /api/pessoas/{id} — buscar pessoa
+PUT /api/pessoas/{id} — atualizar pessoa
+DELETE /api/pessoas/{id} — deletar pessoa
