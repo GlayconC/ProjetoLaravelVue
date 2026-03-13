@@ -23,6 +23,15 @@
           <h2 class="text-gray-700 text-lg md:text-xl mb-4 mt-4 md:mt-8 font-bold text-center">LISTA DE PESSOAS</h2>
           <p class="text-gray-600 text-center">Pessoas cadastradas: {{ listaPessoas ? listaPessoas.length : 0 }}</p>
           <div class="mt-5 bg-gray-100 rounded">
+            <div class="flex  mt-4 px-4 pt-5">
+                <input 
+                    v-model="filtro"
+                    @input="paginaAtual = 1"
+                    type="text" 
+                    placeholder="Buscar por nome..."
+                    class="shadow w-full md:w-96 py-2 px-3 text-gray-700 leading-tight focus:outline-none"
+                >
+            </div>
             <ul class="mt-3 text-gray-700">
                 <li v-for="pessoa in pessoasPaginadas" :key="pessoa.id" class="hover:bg-gray-200 py-3 px-4 flex flex-col md:flex-row justify-between md:items-center gap-2">
                     <span class="text-sm md:text-base">{{ pessoa.nome }} - {{ pessoa.email }}</span>
@@ -121,7 +130,8 @@
         pessoaSelecionada: null,
         paginaAtual: 1,
         itensPorPagina: 5,
-        carregando: false
+        carregando: false,
+        filtro:''
       }
     },
     async mounted(){
@@ -176,13 +186,19 @@
       }
     },
     computed: {
+        pessoasFiltradas() {
+            if (!this.filtro) return this.listaPessoas
+            return this.listaPessoas.filter(p =>
+                p.nome.toLowerCase().includes(this.filtro.toLowerCase())
+            )
+        },
         pessoasPaginadas() {
             const inicio = (this.paginaAtual - 1) * this.itensPorPagina
             const fim = inicio + this.itensPorPagina
-            return this.listaPessoas.slice(inicio, fim)
+            return this.pessoasFiltradas.slice(inicio, fim)  // ← trocar aqui
         },
         totalPaginas() {
-            return Math.ceil(this.listaPessoas.length / this.itensPorPagina)
+            return Math.ceil(this.pessoasFiltradas.length / this.itensPorPagina)  // ← e aqui
         }
     }
   }

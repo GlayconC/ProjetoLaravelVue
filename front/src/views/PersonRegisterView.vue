@@ -55,7 +55,7 @@
                     >
                     <p class="text-red-500 text-sm pt-1 min-h-[20px]">{{ erros.documento }}</p>
                 </div>
-              <div class="flex gap-2 md:gap-4 md:items-start items-center">
+              <div class="flex gap-4 md:gap-4 md:items-start items-center">
                 <label class="w-10 text-gray-700 text-xl font-bold" for="tipo">Tipo:</label>
                 <input v-model="dados.tipo" readonly class="shadow appearance-none border rounded w-35 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-300" id="tipo" type="text" placeholder="PF/PJ">
               </div>
@@ -143,7 +143,6 @@
     },
     methods: {
       async cadastrarPessoa() {
-        console.log(this.$route.params.id) 
         const token = localStorage.getItem('token')
 
         this.erros.email = this.dados.email ? '' : 'O campo email é obrigatório.'

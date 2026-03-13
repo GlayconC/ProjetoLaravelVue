@@ -38,7 +38,8 @@ const router = createRouter({
       name: 'person-edit',
       component: PersonRegisterView,
       meta: { requiresAuth: true }
-    }
+    },
+    { path: '/:pathMatch(.*)*', redirect: '/dashboard' }
   ],
 })
 

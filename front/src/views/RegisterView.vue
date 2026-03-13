@@ -1,5 +1,11 @@
 <template>
   <div class="min-h-screen bg-gray-400 p-4 md:p-8"> 
+        <div v-if="carregando" class="fixed inset-0 backdrop-blur-sm flex items-center justify-center">
+            <div class="bg-white rounded-lg p-6 flex flex-col items-center gap-4">
+                <img src="https://i.gifer.com/ZZ5H.gif" alt="Carregando..." class="w-16 h-16">
+                <p class="text-gray-700 font-bold">Carregando...</p>
+            </div>
+        </div>
       <div class="w-full max-w-2xl mx-auto bg-white rounded-lg shadow p-4 md:p-6"> 
           <h1 class="text-black text-xl md:text-2xl text-center font-bold mb-6 md:mb-10">
               Cadastro de Usuários!
@@ -45,7 +51,8 @@
 </template>
 
 <script>
-    import api from '../services/api'
+
+import api from '../services/api'
 
     export default {
         data() {
@@ -55,6 +62,7 @@
             password: '',
             password_confirmation: '',
             error: '',
+            carregando: false,
             erros: {
               name: '',
               email: '',
@@ -90,6 +98,7 @@
             },
             async register() {
                 try {
+                    this.carregando = true
                     const response = await api.post('/register', {
                     name: this.name,
                     email: this.email,
@@ -104,6 +113,8 @@
                     if (errosApi.email) this.erros.email = 'Email já cadastrado!'
                     if (errosApi.password) this.erros.password = 'A senha deve conter no mínimo 6 caracteres.'
                     console.log(errosApi)
+                } finally {
+                    this.carregando = false
                 }
             }
         }
