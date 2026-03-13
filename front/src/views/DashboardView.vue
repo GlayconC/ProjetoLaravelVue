@@ -135,23 +135,15 @@
       }
     },
     async mounted(){
-      const token = localStorage.getItem('token')
+
       this.carregando = true
 
       // Buscar dados do usuário logado
-      const response = await api.get('/user', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
+      const response = await api.get('/user')
       this.user = response.data
       
       // Buscar lista de pessoas
-      const response2 = await api.get('/pessoas', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
+      const response2 = await api.get('/pessoas')
       this.listaPessoas = response2.data
       this.carregando = false
     },
@@ -160,11 +152,7 @@
       async logout() {
         const token = localStorage.getItem('token')
 
-        await api.post('/logout', {}, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
+        await api.post('/logout', {})
 
         localStorage.removeItem('token')
         this.$router.push('/login')
@@ -175,11 +163,7 @@
         const token = localStorage.getItem('token')
         console.log(id)
 
-        await api.delete(`/pessoas/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
+        await api.delete(`/pessoas/${id}`)
 
         // Remover a pessoa da lista
         this.listaPessoas = this.listaPessoas.filter(p => p.id !== id)

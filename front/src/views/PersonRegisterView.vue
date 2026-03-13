@@ -134,16 +134,13 @@
             // modo edição - busca os dados da pessoa
             this.carregando = true
             const token = localStorage.getItem('token')
-            const response = await api.get(`/pessoas/${id}`, {
-                headers: { Authorization: `Bearer ${token}` }
-            })
+            const response = await api.get(`/pessoas/${id}`)
             this.dados = response.data
             this.carregando = false
         }
     },
     methods: {
       async cadastrarPessoa() {
-        const token = localStorage.getItem('token')
 
         this.erros.email = this.dados.email ? '' : 'O campo email é obrigatório.'
         this.erros.nome = this.dados.nome ? '' : 'O campo nome é obrigatório.'
@@ -156,17 +153,9 @@
             !this.erros.nome) {
           try {
             if(this.$route.params.id){
-              await api.put(`/pessoas/${this.$route.params.id}`, this.dados, {
-                headers: {
-                  Authorization: `Bearer ${token}`
-                }
-              })
+              await api.put(`/pessoas/${this.$route.params.id}`, this.dados)
             } else {
-              await api.post('/pessoas', this.dados,{
-                headers: {
-                  Authorization: `Bearer ${token}`
-                }
-              })
+              await api.post('/pessoas', this.dados)
             }
             this.modalSucesso = true
             this.dados = {
@@ -273,7 +262,6 @@
       validaDocumento(documento) {
           const cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/
           const cnpjRegex = /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/
-          const token = localStorage.getItem('token')
 
 
           if (cpfRegex.test(documento)) {
